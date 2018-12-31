@@ -245,7 +245,7 @@ export const membersList = async function () {
     for(let i = 0; i < total; i++) {
         let current = await memberByIndex(i);
         let data = await memberSettings(current);
-        list.push({addr : current, name : data.name.length > 1 ? data.name : data.suggested});
+        list.push({addr : current, name : data.name});
     }
     return list;
 };

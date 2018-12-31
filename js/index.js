@@ -41,20 +41,20 @@ async function init() {
                     currentUser.account = accounts[0];
                     initMembers();
                     initChatRooms();
-                    initChatRoom();
-                    initChatRoomMessages();
                     setTimeout(() => {
                         document.getElementById('loaded').style.display = 'block';
                         document.getElementById('loading').style.display = 'none';
                     }, 800);
                     document.getElementById('loadedAccount').innerText = accounts[0];
+
+                    initChatRoom(initChatRoomMessages);
                 }
             });
 
         }
     });
-    currentIPFS.node = new window.Ipfs();//{ host: 'ipfs.infura.io', port: 5001, protocol: 'https' });
-    currentIPFS.node.on('ready', () => {
+    currentIPFS.node = IpfsHttpClient('ipfs.infura.io', '5001', {protocol: 'https'});
+    //currentIPFS.node.on('ready', () => {
         document.getElementById('loadingCheck4').className = "material-icons tiny check green-text";
         document.getElementById('loadingText4').className = "green-text";
         document.getElementById('loadedCheck4').className = "material-icons tiny check green-text";
@@ -62,8 +62,13 @@ async function init() {
         currentIPFS.node.version((error, version) => {
             console.log('ipfs Version', version);
         });
-    });
-    currentIPFS.node.on('error', error => {
-        console.error(error.message);
-    });
+        currentIPFS.node.id((error, id) => {
+            console.log('ipfs ID', id);
+            document.getElementById('ipfsID').innerText = ' Current Node: ' + id.id;
+            document.getElementById('ipfsID2').innerText = ' Current Node: ' + id.id;
+        });
+    //});
+    //currentIPFS.node.on('error', error => {
+    //   console.error(error.message);
+   //});
 }

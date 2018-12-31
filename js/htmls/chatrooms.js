@@ -64,6 +64,5 @@ async function selectChatRoom(addr) {
     }
     currentRoom.addr = addr;
     localStorage.setItem('currentRoom', JSON.stringify(currentRoom));
-    initChatRoom();
-    initChatRoomMessages();
+    initChatRoom(initChatRoomMessages);;
 }

@@ -1,4 +1,4 @@
-async function initChatRoom() {
+async function initChatRoom(_callback) {
     if (!currentRoom.addr) {
         document.getElementById('chatRoomMembersLoading').style.display = 'none';
         document.getElementById('chatRoomMembersLoaded').innerHTML = '';
@@ -27,13 +27,13 @@ async function initChatRoom() {
                 <i class="material-icons tiny account_circle orange-text">account_circle</i>
                 <label class="orange-text">${list[i].name} ${added}</label>
             </a>`;
-        currentRoom.loadedMembers[list[i].addr] = 1;
+        currentRoom.loadedMembers[list[i].addr] = list[i].name.length > 0 ? list[i].name : (list[i].addr.substr(0, 12) + '...');
     }
     html += '</div>';
     document.getElementById('chatRoomMembersLoaded').innerHTML = html;
-
-
-
+    if (_callback) {
+        _callback();
+    }
 }
 
 
@@ -54,7 +54,6 @@ async function createNewChatRoomMemberModal() {
     }
     html += '</div>';
     document.getElementById('listNewChatRoomMemberModal').innerHTML = html;
-    document.getElementById('addrNewChatRoomMemberModal').innerHtml = `<a href="https://ropsten.etherscan.io/address/${currentRoom.addr}" target="_blank">${currentRoom.addr}</a>`;
     const chatRoomModal = M.Modal.getInstance(document.getElementById('newChatRoomMemberModal'));
     chatRoomModal.open();
     setTimeout(() => {
